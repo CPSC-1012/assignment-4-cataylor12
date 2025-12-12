@@ -176,13 +176,24 @@ namespace Thrilladelphia
                 $"{"Visitors Today: "}{VisitorsToday}\n" +
                 $"{"Thrill Level: "}{ThrillLevel}\n" +
                 $"{"Popularity Score: "}{PopularityScore}";
-        } 
+        }
+
+
     }
     internal class Program
     {
+        private static void DisplayMainMenu()
+        {
+            Console.WriteLine("\nChoose from the following options: ");
+            Console.WriteLine("\n[P] View Popularity Score");
+            console.WriteLine("\n[T] View Thrill Level");
+            Console.WriteLine("\n[A] All ride details");
+            Console.Write("Enter your choice: ");
+        }
+
         static void Main(string[] args)
         {
 
-        }
+    }
     }
 }
