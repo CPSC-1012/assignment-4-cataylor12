@@ -176,6 +176,7 @@ namespace Thrilladelphia
         // </summary>
         public void RideDetails()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("RIDE DETAILS:\n");
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Fright Factor: {FrightFactor}");
@@ -183,53 +184,111 @@ namespace Thrilladelphia
             Console.WriteLine($"Visitors Today: {VisitorsToday}");
             Console.WriteLine($"Thrill Level: {ThrillLevel}");
             Console.WriteLine($"Popularity: {PopularityScore}");
+            Console.ResetColor();
         }
     }
     internal class Program
     {
         // <summary>
         // create a switch, recording user response and navigate accordingly
+        // looping when user inputs an invalid response
         // </summary>
         private static void DisplayMainMenu(Ride ride)
         {
-            Console.WriteLine("Choose from the following options: ");
-            Console.WriteLine("[P] View Popularity Score");
-            Console.WriteLine("[T] View Thrill Level");
-            Console.WriteLine("[A] All ride details");
-            Console.Write("Enter your choice: ");
-            string input = Console.ReadLine();
+            string input;
 
-            if (input != null)
-            {
-
-                switch (input)
+                do 
                 {
-                    case "P":
-                    case "p":
-                        ride.ShowPopularityScore();
-                        break;
-                    case "T":
-                    case "t":
-                        ride.ShowThrillLevel();
-                        break;
-                    case "A":
-                    case "a":
-                        ride.RideDetails();
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option");
-                        break;
+                    Console.WriteLine("Choose from the following options: ");
+                    Console.WriteLine("[P] View Popularity Score");
+                    Console.WriteLine("[T] View Thrill Level");
+                    Console.WriteLine("[A] All ride details");
+                    Console.Write("Enter your choice: ");
+                    input = Console.ReadLine();
+
+                    switch (input)
+                    {
+                        case "P":
+                        case "p":
+                            ride.ShowPopularityScore();
+                           break;
+                        case "T":
+                        case "t":
+                            ride.ShowThrillLevel();
+                            break;
+                        case "A":
+                        case "a":
+                            ride.RideDetails();
+                            break;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("That wasn't a valid choice. Please try again.");
+                            Console.ResetColor();
+                            break;
+                    }
                 }
-            }
+                while (input != null);
 
         }
 
         static void Main(string[] args)
         {
-            Console.Write("Enter the ride name: ");
-            string name = Console.ReadLine();
-            Console.Write("Enter the fright factor (0-100): ");
-            int frightFactor = int.Parse(Console.ReadLine());
+            string name;
+
+            // <summary>
+            // Prompt user for string, int, double and int, looping if the user enters an invalid input
+            // </summary>
+            do
+            {
+                Console.Write("Enter the ride name: ");
+                name = Console.ReadLine();
+
+                // <summary>
+                // user enters nothing
+                // </summary>
+                if (string.IsNullOrEmpty(name))
+                {
+                    Console.ForegroundColor= ConsoleColor.Red;
+                    Console.WriteLine("String cannot be empty.");
+                    Console.ResetColor();
+                }
+            }
+            while (string.IsNullOrEmpty(name));
+
+            int frightFactor;
+            do
+            {
+                Console.Write("Enter the fright factor (0-100): ");
+                string input = Console.ReadLine();
+
+                // <summary>
+                // checks string input from user and try to parse it into an int. If it can't because of invalid input, prints an error
+                if (!int.TryParse(input, out frightFactor))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid: please enter a number without decimals: ");
+                    Console.ResetColor();
+                }
+                // <summary>
+                // if user enters a number smaller than 0 or larger than 100, print error
+                // </summary>
+                else if (frightFactor < 0 || frightFactor > 100)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Fright factor must be between 0 and 100, inclusive.");
+                    Console.ResetColor();
+                }
+                // <summary>
+                // valid entry, end loop
+                // </summary>
+                else
+                {
+                    break;
+                }
+            }
+            while (true);
+            
+           
             Console.Write("Enter the cost to enter: ");
             double costToEnter = double.Parse(Console.ReadLine());
             Console.Write("Enter the # of visitors this ride had today: ");
