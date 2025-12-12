@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 /******************************************************************************************
  * Author Name: Camden Taylor
@@ -176,35 +177,12 @@ namespace Thrilladelphia
                 $"{"Thrill Level: "}{ThrillLevel}\n" +
                 $"{"Popularity Score: "}{PopularityScore}";
         } 
-
-        public static Ride CreateRide()
-        {
-            Console.Write("Enter the ride name: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Enter the Fright Factor (0-100): ");
-            int frightFactor = int.Parse(Console.ReadLine());
-
-            Console.Write("Enter the ride's cost to enter: ");
-            double costToEnter = double.Parse(Console.ReadLine());
-
-            Console.Write("Enter the # of visitors this ride had today: ");
-            int visitorsToday = int.Parse(Console.ReadLine());
-
-            return new Ride
-            {
-                Name = name,
-                FrightFactor = frightFactor,
-                CostToEnter = costToEnter,
-                VisitorsToday = visitorsToday
-            };
-        }
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Ride newRide = Ride.CreateRide();
+
         }
     }
 }
