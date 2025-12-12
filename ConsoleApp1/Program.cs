@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 /******************************************************************************************
  * Author Name: Camden Taylor
@@ -78,7 +73,7 @@ namespace Thrilladelphia
 
             set
             {
-                if (value > 100 || value < 0)
+                if (value < 0 || value > 100)
                 {
                     throw new Exception("Fright factor must be between 0 and 100");
                 }
@@ -136,6 +131,11 @@ namespace Thrilladelphia
             }
         }
 
+        public void ShowPopularityScore()
+        {
+            Console.WriteLine($"\nPopularity: {PopularityScore}");
+        }
+
         // <summary>
         // read only property ThrillLevel that returns a string based on FrightFactor value
         // </summary>
@@ -164,36 +164,80 @@ namespace Thrilladelphia
         }
 
         // <summary>
-        // create a method called "RideDetails" that returns a list of variables
+        // create a method to display thrill level of a specific ride
         // </summary>
-        public string RideDetails()
+        public void ShowThrillLevel()
         {
-            Console.WriteLine("RIDE DETAILS:\n");
-            return
-                $"{"Name: "}{Name}\n" +
-                $"{"Fright Factor: "}{FrightFactor}\n" +
-                $"{"Cost: "}{CostToEnter:C}\n" +
-                $"{"Visitors Today: "}{VisitorsToday}\n" +
-                $"{"Thrill Level: "}{ThrillLevel}\n" +
-                $"{"Popularity Score: "}{PopularityScore}";
+            Console.WriteLine($"\nThrill Level: {ThrillLevel}");
         }
 
-
+        // <summary>
+        // create a method called "RideDetails" that returns a list of variables
+        // </summary>
+        public void RideDetails()
+        {
+            Console.WriteLine("RIDE DETAILS:\n");
+            Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Fright Factor: {FrightFactor}");
+            Console.WriteLine($"Cost: {CostToEnter:C}");
+            Console.WriteLine($"Visitors Today: {VisitorsToday}");
+            Console.WriteLine($"Thrill Level: {ThrillLevel}");
+            Console.WriteLine($"Popularity: {PopularityScore}");
+        }
     }
     internal class Program
     {
-        private static void DisplayMainMenu()
+        // <summary>
+        // create a switch, recording user response and navigate accordingly
+        // </summary>
+        private static void DisplayMainMenu(Ride ride)
         {
-            Console.WriteLine("\nChoose from the following options: ");
-            Console.WriteLine("\n[P] View Popularity Score");
-            console.WriteLine("\n[T] View Thrill Level");
-            Console.WriteLine("\n[A] All ride details");
+            Console.WriteLine("Choose from the following options: ");
+            Console.WriteLine("[P] View Popularity Score");
+            Console.WriteLine("[T] View Thrill Level");
+            Console.WriteLine("[A] All ride details");
             Console.Write("Enter your choice: ");
+            string input = Console.ReadLine();
+
+            if (input != null)
+            {
+
+                switch (input)
+                {
+                    case "P":
+                    case "p":
+                        ride.ShowPopularityScore();
+                        break;
+                    case "T":
+                    case "t":
+                        ride.ShowThrillLevel();
+                        break;
+                    case "A":
+                    case "a":
+                        ride.RideDetails();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option");
+                        break;
+                }
+            }
+
         }
 
         static void Main(string[] args)
         {
+            Console.Write("Enter the ride name: ");
+            string name = Console.ReadLine();
+            Console.Write("Enter the fright factor (0-100): ");
+            int frightFactor = int.Parse(Console.ReadLine());
+            Console.Write("Enter the cost to enter: ");
+            double costToEnter = double.Parse(Console.ReadLine());
+            Console.Write("Enter the # of visitors this ride had today: ");
+            int visitorsToday = int.Parse(Console.ReadLine());
 
-    }
+            Ride ride = new Ride(name, frightFactor, costToEnter, visitorsToday);
+
+            DisplayMainMenu(ride);
+        }
     }
 }
