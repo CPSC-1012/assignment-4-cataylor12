@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 
 /******************************************************************************************
@@ -127,13 +128,13 @@ namespace Thrilladelphia
         {
             get
             {
-                return ((FrightFactor / 10) * VisitorsToday);
+                return (FrightFactor / 10.0) * VisitorsToday;
             }
         }
 
         public void ShowPopularityScore()
         {
-            Console.WriteLine($"\nPopularity: {PopularityScore}");
+            Console.WriteLine($"Popularity: {PopularityScore}");
         }
 
         // <summary>
@@ -168,7 +169,7 @@ namespace Thrilladelphia
         // </summary>
         public void ShowThrillLevel()
         {
-            Console.WriteLine($"\nThrill Level: {ThrillLevel}");
+            Console.WriteLine($"Thrill Level: {ThrillLevel}");
         }
 
         // <summary>
@@ -177,13 +178,13 @@ namespace Thrilladelphia
         public void RideDetails()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("RIDE DETAILS:\n");
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Fright Factor: {FrightFactor}");
-            Console.WriteLine($"Cost: {CostToEnter:C}");
+            Console.WriteLine("RIDE DETAILS:");
+            Console.WriteLine($"Name:           {Name}");
+            Console.WriteLine($"Fright Factor:  {FrightFactor}");
+            Console.WriteLine($"Cost:           {CostToEnter:C}");
             Console.WriteLine($"Visitors Today: {VisitorsToday}");
-            Console.WriteLine($"Thrill Level: {ThrillLevel}");
-            Console.WriteLine($"Popularity: {PopularityScore}");
+            Console.WriteLine($"Thrill Level:   {ThrillLevel}");
+            Console.WriteLine($"Popularity:     {PopularityScore}");
             Console.ResetColor();
         }
     }
@@ -227,7 +228,7 @@ namespace Thrilladelphia
                             break;
                     }
                 }
-                while (input != null);
+                while (true);
 
         }
 
@@ -287,12 +288,56 @@ namespace Thrilladelphia
                 }
             }
             while (true);
-            
-           
-            Console.Write("Enter the cost to enter: ");
-            double costToEnter = double.Parse(Console.ReadLine());
-            Console.Write("Enter the # of visitors this ride had today: ");
-            int visitorsToday = int.Parse(Console.ReadLine());
+
+            double costToEnter;
+            do
+            {
+                Console.Write("Enter the cost to enter: ");
+                string input = Console.ReadLine();
+
+                if (!double.TryParse(input, out costToEnter))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid: please enter a number. ");
+                    Console.ResetColor();
+                }
+                else if (costToEnter < 1.00)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Cost must be 1.00 or greater. ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            while (true);
+
+            int visitorsToday;
+            do
+            {
+                Console.Write("Enter the # of visitors this ride had today: ");
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out visitorsToday))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid: please enter a number without decimals. ");
+                    Console.ResetColor();
+                }
+                else if (visitorsToday < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Visitor count cannot be negative. ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    break;
+                }
+            } 
+            while (true);
 
             Ride ride = new Ride(name, frightFactor, costToEnter, visitorsToday);
 
