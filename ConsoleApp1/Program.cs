@@ -177,7 +177,7 @@ namespace Thrilladelphia
                 $"{"Popularity Score: "}{PopularityScore}";
         } 
 
-        public void CreateRide()
+        public static Ride CreateRide()
         {
             Console.Write("Enter the ride name: ");
             string name = Console.ReadLine();
@@ -191,13 +191,20 @@ namespace Thrilladelphia
             Console.Write("Enter the # of visitors this ride had today: ");
             int visitorsToday = int.Parse(Console.ReadLine());
 
+            return new Ride
+            {
+                Name = name,
+                FrightFactor = frightFactor,
+                CostToEnter = costToEnter,
+                VisitorsToday = visitorsToday
+            };
         }
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Ride newRide = RideDetails();
+            Ride newRide = Ride.CreateRide();
         }
     }
 }
